@@ -1,4 +1,7 @@
 package me.biocomp.hubitat_ci.api.device_api.zwave.commands.securityv1
 
-class NetworkKeyVerify {
+import me.biocomp.hubitat_ci.api.device_api.zwave.Command
+
+trait NetworkKeyVerify implements Command
+{
 }

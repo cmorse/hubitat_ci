@@ -1,0 +1,18 @@
+package me.biocomp.hubitat_ci.api.device_api.zwave.commandclasses
+
+import me.biocomp.hubitat_ci.api.device_api.zwave.commands.thermostatoperatingstatev2.ThermostatOperatingLoggingSupportedReport
+import me.biocomp.hubitat_ci.api.device_api.zwave.commands.thermostatoperatingstatev2.ThermostatOperatingStateGet
+import me.biocomp.hubitat_ci.api.device_api.zwave.commands.thermostatoperatingstatev2.ThermostatOperatingStateLoggingGet
+import me.biocomp.hubitat_ci.api.device_api.zwave.commands.thermostatoperatingstatev2.ThermostatOperatingStateLoggingReport
+import me.biocomp.hubitat_ci.api.device_api.zwave.commands.thermostatoperatingstatev2.ThermostatOperatingStateLoggingSupportedGet
+import me.biocomp.hubitat_ci.api.device_api.zwave.commands.thermostatoperatingstatev2.ThermostatOperatingStateReport
+
+trait ThermostatOperatingStateV2
+{
+    abstract ThermostatOperatingLoggingSupportedReport thermostatOperatingLoggingSupportedReport(Map arg0=null)
+    abstract ThermostatOperatingStateGet thermostatOperatingStateGet(Map arg0=null)
+    abstract ThermostatOperatingStateLoggingGet thermostatOperatingStateLoggingGet(Map arg0=null)
+    abstract ThermostatOperatingStateLoggingReport thermostatOperatingStateLoggingReport(Map arg0=null)
+    abstract ThermostatOperatingStateLoggingSupportedGet thermostatOperatingStateLoggingSupportedGet(Map arg0=null)
+    abstract ThermostatOperatingStateReport thermostatOperatingStateReport(Map arg0=null)
+}

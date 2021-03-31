@@ -2,7 +2,6 @@ package me.biocomp.hubitat_ci.app.preferences
 
 import me.biocomp.hubitat_ci.capabilities.Capabilities
 import me.biocomp.hubitat_ci.validation.BooleanInputValueFactory
-import me.biocomp.hubitat_ci.validation.DefaultAndUserValues
 import me.biocomp.hubitat_ci.validation.IInputValueFactory
 import me.biocomp.hubitat_ci.validation.InputCommon
 import me.biocomp.hubitat_ci.validation.Flags
@@ -35,6 +34,7 @@ class Input extends InputCommon {
         listOfStringsParameter("options", notRequired())
         stringParameter("type", required(), mustNotBeEmpty())
         boolParameter("hideWhenEmpty", notRequired())
+        objParameter("width", notRequired(), canBeNull())
     }
 
     // @formatter:off

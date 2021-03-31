@@ -1,4 +1,11 @@
 package me.biocomp.hubitat_ci.api.device_api.zwave.commands.manufacturerspecificv2
 
-class ManufacturerSpecificReport {
+import me.biocomp.hubitat_ci.api.device_api.zwave.Command
+
+trait ManufacturerSpecificReport implements Command
+{
+    Integer manufacturerId
+    String manufacturerName
+    Integer productId
+    Integer productTypeId
 }

@@ -1,0 +1,18 @@
+package me.biocomp.hubitat_ci.api.device_api.zwave.commandclasses
+
+import me.biocomp.hubitat_ci.api.device_api.zwave.commands.securitypanelzonesensorv1.CommandClassSecurityPanelZoneSensorInstalledReport
+import me.biocomp.hubitat_ci.api.device_api.zwave.commands.securitypanelzonesensorv1.SecurityPanelZoneSensorInstalledGet
+import me.biocomp.hubitat_ci.api.device_api.zwave.commands.securitypanelzonesensorv1.SecurityPanelZoneSensorStateGet
+import me.biocomp.hubitat_ci.api.device_api.zwave.commands.securitypanelzonesensorv1.SecurityPanelZoneSensorStateReport
+import me.biocomp.hubitat_ci.api.device_api.zwave.commands.securitypanelzonesensorv1.SecurityPanelZoneSensorTypeGet
+import me.biocomp.hubitat_ci.api.device_api.zwave.commands.securitypanelzonesensorv1.SecurityPanelZoneSensorTypeReport
+
+trait SecurityPanelZoneSensorV1
+{
+    abstract CommandClassSecurityPanelZoneSensorInstalledReport commandClassSecurityPanelZoneSensorInstalledReport(Map arg0=null)
+    abstract SecurityPanelZoneSensorInstalledGet securityPanelZoneSensorInstalledGet(Map arg0=null)
+    abstract SecurityPanelZoneSensorStateGet securityPanelZoneSensorStateGet(Map arg0=null)
+    abstract SecurityPanelZoneSensorStateReport securityPanelZoneSensorStateReport(Map arg0=null)
+    abstract SecurityPanelZoneSensorTypeGet securityPanelZoneSensorTypeGet(Map arg0=null)
+    abstract SecurityPanelZoneSensorTypeReport securityPanelZoneSensorTypeReport(Map arg0=null)
+}

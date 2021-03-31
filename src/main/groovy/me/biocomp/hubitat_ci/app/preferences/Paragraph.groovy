@@ -11,6 +11,7 @@ class Paragraph {
         stringParameter("title", notRequired(), mustNotBeEmpty())
         stringParameter("image", notRequired(), mustNotBeEmpty())
         boolParameter("required", notRequired())
+        objParameter("width", notRequired(), canBeNull())
     }
 
     Paragraph(String text, Map options, EnumSet<Flags> validationFlags) {

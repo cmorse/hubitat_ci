@@ -23,6 +23,8 @@ class ScriptUtil {
             return getter.invoke(scriptObject);
         } catch (NoSuchMethodException e) {
             // It's OK, it might be handled below
+        } catch (InvocationTargetException) {
+            System.out.println("Whoa whoa whoa ${getterMethodName}")
         }
 
         final def scriptMetaClass = scriptObject.getMetaClass()

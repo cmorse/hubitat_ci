@@ -1,0 +1,24 @@
+package me.biocomp.hubitat_ci.api.device_api.zwave.commandclasses
+
+import me.biocomp.hubitat_ci.api.device_api.zwave.commands.humiditycontrolsetpointv2.HumidityControlSetpointCapabilitiesGet
+import me.biocomp.hubitat_ci.api.device_api.zwave.commands.humiditycontrolsetpointv2.HumidityControlSetpointCapabilitiesReport
+import me.biocomp.hubitat_ci.api.device_api.zwave.commands.humiditycontrolsetpointv2.HumidityControlSetpointGet
+import me.biocomp.hubitat_ci.api.device_api.zwave.commands.humiditycontrolsetpointv2.HumidityControlSetpointReport
+import me.biocomp.hubitat_ci.api.device_api.zwave.commands.humiditycontrolsetpointv2.HumidityControlSetpointScaleSupportedGet
+import me.biocomp.hubitat_ci.api.device_api.zwave.commands.humiditycontrolsetpointv2.HumidityControlSetpointScaleSupportedReport
+import me.biocomp.hubitat_ci.api.device_api.zwave.commands.humiditycontrolsetpointv2.HumidityControlSetpointSet
+import me.biocomp.hubitat_ci.api.device_api.zwave.commands.humiditycontrolsetpointv2.HumidityControlSetpointSupportedGet
+import me.biocomp.hubitat_ci.api.device_api.zwave.commands.humiditycontrolsetpointv2.HumidityControlSetpointSupportedReport
+
+trait HumidityControlSetpointV2
+{
+    abstract HumidityControlSetpointCapabilitiesGet humidityControlSetpointCapabilitiesGet(Map arg0=null)
+    abstract HumidityControlSetpointCapabilitiesReport humidityControlSetpointCapabilitiesReport(Map arg0=null)
+    abstract HumidityControlSetpointGet humidityControlSetpointGet(Map arg0=null)
+    abstract HumidityControlSetpointReport humidityControlSetpointReport(Map arg0=null)
+    abstract HumidityControlSetpointScaleSupportedGet humidityControlSetpointScaleSupportedGet(Map arg0=null)
+    abstract HumidityControlSetpointScaleSupportedReport humidityControlSetpointScaleSupportedReport(Map arg0=null)
+    abstract HumidityControlSetpointSet humidityControlSetpointSet(Map arg0=null)
+    abstract HumidityControlSetpointSupportedGet humidityControlSetpointSupportedGet(Map arg0=null)
+    abstract HumidityControlSetpointSupportedReport humidityControlSetpointSupportedReport(Map arg0=null)
+}

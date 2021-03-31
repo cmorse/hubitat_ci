@@ -106,7 +106,7 @@ class DeviceValidator extends
         assert attribute.name: "Attribute ${attribute} doesn't have a name."
         assert attribute.type: "Attribute ${attribute} doesn't have a type."
 
-        assert attribute.type == 'string' || attribute.type == 'enum' || attribute.type == 'number': "Attribute ${attribute}'s type '${attribute.type}' is not supported."
+        assert attribute.type == 'string' || attribute.type == 'enum' || attribute.type == 'number' || attribute.type == 'JSON_OBJECT' : "Attribute ${attribute}'s type '${attribute.type}' is not supported."
         if (attribute.type == 'enum') {
             assert attribute.possibleValues != null && attribute.possibleValues.size() != 0: "Attribute ${attribute} with 'enum' type must have possible values specified."
         } else {

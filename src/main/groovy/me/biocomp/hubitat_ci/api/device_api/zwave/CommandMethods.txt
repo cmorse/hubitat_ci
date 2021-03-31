@@ -1,0 +1,10 @@
+Platform version: 2.2.2.129
+
+class hubitat.zwave.Command:
+Methods:[
+  public java.lang.String hubitat.zwave.Command.format()
+  public abstract java.lang.String hubitat.zwave.Command.getCMD()
+  public java.lang.Short hubitat.zwave.Command.getCommandClassId()
+  public java.lang.Short hubitat.zwave.Command.getCommandId()
+  public java.util.List hubitat.zwave.Command.getPayload()
+]

@@ -34,6 +34,9 @@ class SandboxClassLoader extends ClassLoader {
             case ~/hubitat\.zigbee\..*/:
                 return name.replace('hubitat.zigbee', 'me.biocomp.hubitat_ci.api.device_api.zigbee')
 
+            case ~/zigbee\..*/:
+                return name.replace('zigbee', 'me.biocomp.hubitat_ci.api.device_api.zigbee')
+
             default:
                 return name
         }
