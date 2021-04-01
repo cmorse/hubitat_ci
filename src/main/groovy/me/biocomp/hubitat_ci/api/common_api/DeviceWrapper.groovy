@@ -141,6 +141,12 @@ trait DeviceWrapper {
     abstract String getDataValue(String name)
 
     /**
+     * Remove a data value that was set for this device.
+     * @param The String value of the data item.
+     */
+    abstract void removeDataValue(String name)
+
+    /**
      * DEPRECATED: See getDataValue, this method is a wrapper for getDataValue.
      */
     abstract String getDeviceDataByName(String deviceName)

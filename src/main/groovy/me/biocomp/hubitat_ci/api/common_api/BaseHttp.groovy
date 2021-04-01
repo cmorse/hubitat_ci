@@ -5,6 +5,9 @@ trait BaseHttp
     abstract Object httpGet(String address, Closure handler)
     abstract Object httpGet(Map options, Closure handler)
 
+    abstract void httpPatch(Map uri, Closure handler)
+    abstract void httpPatch(String uri, String body, Closure handler)
+
     /**
      * uri 	Either a URI or URL of of the endpoint to make a request from.
      * path 	Request path that is merged with the URI.

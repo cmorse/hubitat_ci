@@ -399,6 +399,18 @@ trait DeviceExecutor implements
 
     abstract List<String> delayBetween(List<String> cmds)
 
+    /**
+     * Sends a HubAction immediately
+     * @param hubAction HubAction object to send
+     */
+    abstract void sendHubCommand(HubAction hubAction)
+
+    /**
+     * Sends a HubMultiAction immediately
+     * @param hubMultiAction HubAction object to send
+     */
+    abstract void sendHubCommand(HubMultiAction hubMultiAction)
+
     abstract ChildDeviceWrapper addChildDevice(String typeName, String deviceNetworkId, Map properties = [:])
 
     abstract ChildDeviceWrapper addChildDevice(

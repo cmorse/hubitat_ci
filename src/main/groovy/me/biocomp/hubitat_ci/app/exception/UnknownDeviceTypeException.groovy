@@ -1,4 +1,4 @@
 package me.biocomp.hubitat_ci.app.exception
 
-class UnknownDeviceTypeException {
+class UnknownDeviceTypeException extends Exception {
 }

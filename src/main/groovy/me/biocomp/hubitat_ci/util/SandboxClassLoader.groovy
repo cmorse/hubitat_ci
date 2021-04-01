@@ -25,6 +25,9 @@ class SandboxClassLoader extends ClassLoader {
             case 'hubitat.device.HubResponse':
                 return 'me.biocomp.hubitat_ci.api.common_api.HubResponse'
 
+            case 'com.hubitat.app.exception.UnknownDeviceTypeException':
+                return 'me.biocomp.hubitat_ci.app.exception.UnknownDeviceTypeException'
+
             case 'hubitat.device.Protocol':
                 return 'me.biocomp.hubitat_ci.api.Protocol'
 

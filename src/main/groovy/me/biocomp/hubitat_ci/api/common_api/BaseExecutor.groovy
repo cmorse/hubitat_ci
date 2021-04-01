@@ -67,6 +67,13 @@ trait BaseExecutor implements BaseAsyncHttp, BaseScheduler, BaseHttp
 
     abstract BigDecimal fahrenheitToCelsius(BigDecimal val)
 
+    abstract Map getAllEntitlements()
+    abstract Integer getEntitlementQuantity(String)
+    abstract Boolean hasEntitlement()
+
+    abstract String getZWaveDeviceJoinName(Integer unknown1, Integer unknown2, Integer unknown3)
+    abstract String getZWaveDeviceJoinName(String unknown1, String unknown2, String unknown3 = null)
+
     /**
      * @param supported options:
      *                  (not supported in Hubitat?) zipCode (String) - the zip code to use for determining the times.
@@ -88,6 +95,7 @@ trait BaseExecutor implements BaseAsyncHttp, BaseScheduler, BaseHttp
     abstract String convertTemperatureIfNeeded(BigDecimal value, String scale, Integer precision)
 
     abstract Object parseJson(String stringToParse)
+    abstract Object parseJsonFromBase64(String stringToParse)
 
     abstract GPathResult parseXML(String stringToParse)
 
@@ -146,7 +154,7 @@ trait BaseExecutor implements BaseAsyncHttp, BaseScheduler, BaseHttp
     abstract def setValuesInAsyncResponseAndInvokeCallback(groovyx.net.http.HttpResponseDecorator decorator, Map options, String a)
     abstract def setValuesInAsyncResponseAndInvokeCallback(String a, Map b, String c)
     abstract String getJWTtoken(String a, String b)
-    abstract String getJWTtoken(String a, String b,String c)
+    abstract String getJWTtoken(String a, String b, String c)
     abstract void removeLocationVariable(String name)
 
     abstract void sendPush(String message)
