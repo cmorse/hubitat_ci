@@ -283,6 +283,71 @@ def main():
             copyfileobj(buffer, output_file)
 
 
+    buffer = BytesIO()
+
+    buffer.write('package me.biocomp.hubitat_ci.util\n\n')
+
+    for commandclass in commandclasses:
+        buffer.write('import ' + import_path + '.commandclasses.' + commandclass + '\n')
+
+    buffer.write('\n')
+    for classname in ['Command', 'Zwave']:
+        buffer.write('import me.biocomp.hubitat_ci.api.device_api.zwave.' + classname + '\n')
+    buffer.write('\n')
+
+    buffer.write('import spock.lang.Specification\n\n')
+
+    buffer.write('class MockZwaveSpecification extends Specification\n')
+    buffer.write('{\n')
+
+    for commandclass in commandclasses:
+        cur_commands = commands[commandclass]
+        sorted_cur_commands_keys = list(sorted(cur_commands))
+
+        commandclass_lower = commandclass.lower()
+
+        buffer.write('    ' + commandclass + ' create' + commandclass + 'Mock()\n')
+        buffer.write('    {\n')
+
+        # Some commands are special and need a default implementation
+        for command in sorted_cur_commands_keys:
+            if command in ['MultiChannelCmdEncap', 'SecurityMessageEncapsulation', 'SupervisionGet']:
+                full_name = import_path + '.commands.' + commandclass_lower + '.' + command
+                buffer.write('        def ' + lower_first(command) + 'Mock = Mock(' + full_name + ')\n')
+                buffer.write('        {\n')
+                buffer.write('            _ * encapsulate(_ as Command) >> { cmd -> return Mock(' + full_name + ') }\n')
+                buffer.write('        }\n')
+
+        buffer.write('        def mock = Mock(' + commandclass + ')\n')
+        buffer.write('        {\n')
+        for command in sorted_cur_commands_keys:
+            command_lower_first = lower_first(command)
+            # Some commands are special and need a default implementation
+            if command == 'MultiChannelCmdEncap':
+                buffer.write('            _ * ' + command_lower_first + '(*_) >> ' + command_lower_first + 'Mock\n')
+            else:
+                full_name = import_path + '.commands.' + commandclass_lower + '.' + command
+                buffer.write('            _ * ' + command_lower_first + '(*_) >> Mock(' + full_name + ')\n')
+
+        buffer.write('        }\n')
+        buffer.write('        return mock\n')
+        buffer.write('    }\n\n')
+
+    buffer.write('    Zwave createZwaveMocks()\n')
+    buffer.write('    {\n')
+    buffer.write('        def mock =  Mock(Zwave)\n')
+    buffer.write('        {\n')
+    for commandclass in commandclasses:
+        buffer.write('            _ * get' + commandclass + '() >> create' + commandclass + 'Mock()\n')
+    buffer.write('        }\n')
+    buffer.write('        return mock\n')
+    buffer.write('    }\n')
+    buffer.write('}\n')
+
+    with open(os.path.join(commandclasses_base_path, '../../../../util', 'MockZwaveSpecification.groovy'), 'w') as output_file:
+        buffer.seek(0)
+        copyfileobj(buffer, output_file)
+
 def default_args_dec(args):
     output = []
 
