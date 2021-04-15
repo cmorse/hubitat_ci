@@ -29,6 +29,7 @@ class CapabilitiesTest extends Specification
     static final List<TestCapabilityInfo> expectedCapabilities = [
             new TestCapabilityInfo("accelerationSensor", "AccelerationSensor", "Acceleration Sensor"),
             new TestCapabilityInfo("actuator", "Actuator"),
+            new TestCapabilityInfo("airQuality", "AirQuality", "Air Quality"),
             new TestCapabilityInfo("alarm", "Alarm"),
             new TestCapabilityInfo("audioNotification", "AudioNotification", "Audio Notification"),
             new TestCapabilityInfo("audioVolume", "AudioVolume", "Audio Volume"),
@@ -46,25 +47,32 @@ class CapabilitiesTest extends Specification
             new TestCapabilityInfo("configuration", "Configuration"),
             new TestCapabilityInfo("consumable", "Consumable"),
             new TestCapabilityInfo("contactSensor", "ContactSensor", "Contact Sensor"),
+            new TestCapabilityInfo("currentMeter", "CurrentMeter", "Current Meter"),
             new TestCapabilityInfo("doorControl", "DoorControl", "Door Control"),
             new TestCapabilityInfo("doubleTapableButton", "DoubleTapableButton", "Double Tapable Button"),
             new TestCapabilityInfo("energyMeter", "EnergyMeter", "Energy Meter"),
             new TestCapabilityInfo("estimatedTimeOfArrival", "EstimatedTimeOfArrival", "Estimated Time Of Arrival"),
             new TestCapabilityInfo("fanControl", "FanControl", "Fan Control"),
             new TestCapabilityInfo("filterStatus", "FilterStatus", "Filter Status"),
+            new TestCapabilityInfo("flash", "Flash"),
             new TestCapabilityInfo("garageDoorControl", "GarageDoorControl", "Garage Door Control"),
+            new TestCapabilityInfo("gasDetector", "GasDetector", "Gas Detector"),
             new TestCapabilityInfo("healthCheck", "HealthCheck", "Health Check"),
             new TestCapabilityInfo("holdableButton", "HoldableButton", "Holdable Button"),
             new TestCapabilityInfo("illuminanceMeasurement", "IlluminanceMeasurement", "Illuminance Measurement"),
             new TestCapabilityInfo("imageCapture", "ImageCapture", "Image Capture"),
             new TestCapabilityInfo("indicator", "Indicator"),
             new TestCapabilityInfo("initialize", "Initialize"),
+            new TestCapabilityInfo("levelPreset", "LevelPreset", "Level Preset"),
             new TestCapabilityInfo("light", "Light"),
             new TestCapabilityInfo("lightEffects", "LightEffects", "Light Effects"),
+            new TestCapabilityInfo("liquidFlowRate", "LiquidFlowRate", "Liquid Flow Rate"),
             new TestCapabilityInfo("locationMode", "LocationMode", "Location Mode"),
             new TestCapabilityInfo("lock", "Lock"),
             new TestCapabilityInfo("lockCodes", "LockCodes", "Lock Codes"),
             new TestCapabilityInfo("mediaController", "MediaController", "Media Controller"),
+            new TestCapabilityInfo("mediaInputSource", "MediaInputSource", "Media Input Source"),
+            new TestCapabilityInfo("mediaTransport", "MediaTransport", "Media Transport"),
             new TestCapabilityInfo("momentary", "Momentary"),
             new TestCapabilityInfo("motionSensor", "MotionSensor", "Motion Sensor"),
             new TestCapabilityInfo("musicPlayer", "MusicPlayer", "Music Player"),
@@ -113,10 +121,12 @@ class CapabilitiesTest extends Specification
             new TestCapabilityInfo("touchSensor", "TouchSensor", "Touch Sensor"),
             new TestCapabilityInfo("ultravioletIndex", "UltravioletIndex", "Ultraviolet Index"),
             new TestCapabilityInfo("valve", "Valve"),
+            new TestCapabilityInfo("variable", "Variable"),
             new TestCapabilityInfo("videoCamera", "VideoCamera", "Video Camera"),
             //new TestCapabilityInfo("videoCapture", "VideoCapture", "Video Capture"),
             new TestCapabilityInfo("voltageMeasurement", "VoltageMeasurement", "Voltage Measurement"),
             new TestCapabilityInfo("waterSensor", "WaterSensor", "Water Sensor"),
+            new TestCapabilityInfo("windowBlind", "WindowBlind", "Window Blind"),
             new TestCapabilityInfo("windowShade", "WindowShade", "Window Shade"),
             new TestCapabilityInfo("zwMultichannel", "ZwMultichannel", "Zw Multichannel"),
             new TestCapabilityInfo("pHMeasurement", "pHMeasurement", "Ph Measurement")
@@ -125,12 +135,16 @@ class CapabilitiesTest extends Specification
     def "All device selector names are valid"()
     {
         expect:
+            HashSet
             assert Capabilities.capabilitiesByDeviceSelector.keySet() as HashSet == expectedCapabilities.collect{it.deviceSelectorName} as HashSet
     }
 
     def "All driver definition names are valid"()
     {
         expect:
+            HashSet bullshit = expectedCapabilities.collect{it.driverDefinition} as HashSet
+            HashSet bullshit2 = Capabilities.capabilitiesByDriverDefinition.keySet() as HashSet
+            assert bullshit2 == bullshit
             assert Capabilities.capabilitiesByDriverDefinition.keySet() as HashSet == expectedCapabilities.collect{it.driverDefinition} as HashSet
     }
 
@@ -151,7 +165,7 @@ class ThermostatCapabilityTest extends Specification
         expect:
             ThermostatCoolingSetpoint._internalAttributes
             Thermostat._internalAttributes
-            Capabilities.readAttributes(Thermostat.class).keySet() == ["supportedThermostatFanModes", "supportedThermostatModes", "temperature", "coolingSetpoint", "thermostatFanMode", "heatingSetpoint", "thermostatMode", "thermostatOperatingState", "schedule", "thermostatSetpoint"] as Set
+            Capabilities.readAttributes(Thermostat.class).keySet() == ["supportedThermostatFanModes", "supportedThermostatModes", "temperature", "coolingSetpoint", "thermostatFanMode", "heatingSetpoint", "thermostatMode", "thermostatOperatingState", "thermostatSetpoint"] as Set
     }
 }
 

@@ -69,7 +69,7 @@ class DeviceInputTypeTest extends Specification{
             device.capabilities.size() == 1
             device.capabilities[0].name == "Thermostat"
 
-            attributes.collect{it.name} as Set == ["supportedThermostatFanModes", "supportedThermostatModes", "temperature", "coolingSetpoint", "thermostatFanMode", "heatingSetpoint", "thermostatMode", "thermostatOperatingState", "schedule", "thermostatSetpoint"] as Set
+            attributes.collect{it.name} as Set == ["supportedThermostatFanModes", "supportedThermostatModes", "temperature", "coolingSetpoint", "thermostatFanMode", "heatingSetpoint", "thermostatMode", "thermostatOperatingState", "thermostatSetpoint"] as Set
 
             (Double)device.currentCoolingSetpoint == 0
             (Double)device.currentHeatingSetpoint == 0
@@ -77,7 +77,6 @@ class DeviceInputTypeTest extends Specification{
             device.currentSupportedThermostatModes == 0
             device.currentTemperature == 0
             device.currentThermostatSetpoint == 0
-            device.currentSchedule == 0
 
             // Just make sure this is callable
             device.setCoolingSetpoint(42.42)

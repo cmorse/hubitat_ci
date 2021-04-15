@@ -81,6 +81,7 @@ interface AppExecutor extends
      * @return may return access token here too.
      */
     abstract String createAccessToken()
+    abstract String createAnotherAccessToken()
 //
 //    List<InstalledAppWrapper> findAllChildAppsByName(String name) {
 //        return null;
@@ -316,7 +317,10 @@ interface AppExecutor extends
 
     abstract boolean isAppInstalled(String a, String b)
     abstract boolean isAppInstalled(String a, String b, String c)
+    abstract boolean isHubDeveloper()
+    abstract boolean isSystemType()
     abstract boolean isSystemTypeOrHubDeveloper()
+    abstract boolean isZigbeeOnline()
 
     abstract void metadata(Closure makeContents)
     abstract void saveState()

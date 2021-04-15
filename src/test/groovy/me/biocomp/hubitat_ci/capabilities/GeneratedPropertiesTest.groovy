@@ -40,7 +40,7 @@ class GeneratedPropertiesTest extends Specification {
             findMethod(TV, "channelDown")                         || "channelDown"          | []
             findMethod(SwitchLevel, "setLevel")                   || "setLevel"             | ["NUMBER", "NUMBER"]
             findMethod(ThermostatFanMode, "setThermostatFanMode") || "setThermostatFanMode" | ["STRING"]
-            findMethod(Thermostat, "setSchedule")                 || "setSchedule"          | ["JSON_OBJECT"]
+            findMethod(ThermostatSchedule, "setSchedule")         || "setSchedule"          | ["JSON_OBJECT"]
     }
 
     def "GeneratedCapability is correctly constructed from #capability"() {

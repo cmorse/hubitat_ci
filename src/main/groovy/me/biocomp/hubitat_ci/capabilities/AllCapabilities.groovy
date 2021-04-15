@@ -19,12 +19,18 @@ interface AccelerationSensor extends Capability
 
 // Deprecated in SmartThings
 @CompileStatic
-interface Actuator extends Capability
+interface Actuator extends Capability {}
+
+// Called AirQualitySensor in SmartThings
+@CompileStatic
+interface AirQuality extends Capability
 {
+    static Map<String, CapabilityAttributeInfo> _internalAttributes = CapabilityAttributeInfo.makeList{
+        number("airQualityIndex", min: 0, max: 500) // Double
+    }
 }
 
 // Only in SmartThings: interface AirConditionerMode {}
-// Only in SmartThings: interface AirQualitySensor {}
 
 interface Alarm extends Capability
 {
@@ -89,30 +95,15 @@ interface AudioNotification extends Capability
 
 // SmartThings only: Audio Track Data
 
-interface AudioVolume extends Capability
+interface AudioVolume extends
+    MuteUnmuteInternal,
+    VolumeInternal
 {
-    static Map<String, CapabilityAttributeInfo> _internalAttributes = CapabilityAttributeInfo.makeList{
-        enumAttribute("mute", ["unmuted", "muted"])
-        number("volume") // Double
-    }
-
-    @CompileStatic
-    abstract void mute()
-
     /**
     * @param volumeLevel required (NUMBER) - Volume level (0 to 100)
     */
     @CompileStatic
     abstract void setVolume(Double volumeLevel)
-
-    @CompileStatic
-    abstract void unmute()
-
-    @CompileStatic
-    abstract void volumeDown()
-
-    @CompileStatic
-    abstract void volumeUp()
 }
 
 interface Battery extends Capability
@@ -132,19 +123,7 @@ interface Beacon extends Capability
 
 // SmartThings only: Bridge
 
-
-interface Bulb extends Capability
-{
-    static Map<String, CapabilityAttributeInfo> _internalAttributes = CapabilityAttributeInfo.makeList{
-        enumAttribute("switch", ["on", "off"])
-    }
-
-    @CompileStatic
-    abstract void on()
-
-    @CompileStatic
-    abstract void off()
-}
+interface Bulb extends SwitchInternal {}
 
 // Deprecated in both SmartThings and Hubitat
 interface Button extends Capability
@@ -188,6 +167,9 @@ interface Chime extends Capability
         enumAttribute("status", ["playing", "stopped"])
     }
 
+    /**
+     * @param soundNumber required (NUMBER) - Sound number to play
+     */
     @CompileStatic
     abstract void playSound(Number soundNumber)
 
@@ -201,15 +183,12 @@ interface ColorControl extends Capability
         stringAttribute("rGB")
         stringAttribute("color")
         stringAttribute("colorName")
-        number("hue") // Double
-        number("saturation") // Double
+        number("hue", min: 0, max: 100) // Double
+        number("saturation", min: 0, max: 100) // Double, // in %
     }
 
-
     /**
-     *
      * @param colormap required (COLOR_MAP) - Color map settings [hue*:(0 to 100), saturation*:(0 to 100), level:(0 to 100)]
-     * @return
      */
     @CompileStatic
     abstract void setColor(Map colorMap)
@@ -267,6 +246,13 @@ interface ContactSensor extends Capability
     }
 }
 
+interface CurrentMeter extends Capability
+{
+    static Map<String, CapabilityAttributeInfo> _internalAttributes = CapabilityAttributeInfo.makeList{
+        number("amperage") // Double, // in A
+    }
+}
+
 // SmartThings only: Demand Response Load Control
 // SmartThings only: Dishwasher Mode
 // SmartThings only: Dishwasher Operating State
@@ -314,13 +300,13 @@ interface EstimatedTimeOfArrival extends Capability
 // SmartThings calls it Fan Speed
 interface FanControl extends Capability
 {
-
-
     static Map<String, CapabilityAttributeInfo> _internalAttributes = CapabilityAttributeInfo.makeList{
         enumAttribute("speed", ["low", "medium-low", "medium", "medium-high", "high", "on", "off", "auto"])
     }
 
-
+    /**
+     * @param speed required (ENUM) - Fan speed to set
+     */
     @CompileStatic
     abstract void setSpeed(String speed)
 }
@@ -332,6 +318,15 @@ interface FilterStatus extends Capability
     }
 }
 
+interface Flash extends Capability
+{
+    /**
+     * @param rateToFlash optional (NUMBER) - Rate to flash in ms
+     */
+    @CompileStatic
+    abstract void flash(Number rateToFlash)
+}
+
 interface GarageDoorControl extends Capability
 {
     static Map<String, CapabilityAttributeInfo> _internalAttributes = CapabilityAttributeInfo.makeList{
@@ -339,10 +334,17 @@ interface GarageDoorControl extends Capability
     }
 
     @CompileStatic
-    abstract  void close()
+    abstract void close()
 
     @CompileStatic
-    abstract  void open()
+    abstract void open()
+}
+
+interface GasDetector extends Capability
+{
+    static Map<String, CapabilityAttributeInfo> _internalAttributes = CapabilityAttributeInfo.makeList{
+        enumAttribute("naturalGas", ["clear", "tested", "detected"])
+    }
 }
 
 // Geolocation
@@ -367,7 +369,7 @@ interface HoldableButton extends Capability
 interface IlluminanceMeasurement extends Capability
 {
     static Map<String, CapabilityAttributeInfo> _internalAttributes = CapabilityAttributeInfo.makeList{
-        number("illuminance") // Double
+        number("illuminance") // Double, // In lux
     }
 }
 
@@ -403,23 +405,25 @@ interface Indicator extends Capability
 @CompileStatic
 interface Initialize extends Capability
 {
-    abstract static Map<String, CapabilityAttributeInfo> _internalAttributes = CapabilityAttributeInfo.makeList{
-        enumAttribute("switch", ["on", "off"])
-    }
+    @CompileStatic
+    abstract void initialize()
 }
 
-interface Light extends Capability
+@CompileStatic
+interface LevelPreset extends Capability
 {
     static Map<String, CapabilityAttributeInfo> _internalAttributes = CapabilityAttributeInfo.makeList{
-        enumAttribute("switch", ["on", "off"])
+        number("levelPreset ", min: 1, max: 100)
     }
 
+    /**
+     * @param preset required - Level to preset (1 to 100)
+     */
     @CompileStatic
-    abstract void on()
-
-    @CompileStatic
-    abstract void off()
+    abstract void presetLevel(Double preset)
 }
+
+interface Light extends SwitchInternal {}
 
 interface LightEffects extends Capability
 {
@@ -439,6 +443,13 @@ interface LightEffects extends Capability
 
     @CompileStatic
     abstract void setPreviousEffect()
+}
+
+interface LiquidFlowRate extends Capability
+{
+    static Map<String, CapabilityAttributeInfo> _internalAttributes = CapabilityAttributeInfo.makeList{
+        number("rate") // Double, // in LPM || GPM
+    }
 }
 
 interface LocationMode extends Capability
@@ -503,14 +514,49 @@ interface MediaController extends Capability
         jsonObject("activities")
         stringAttribute("currentActivity")
     }
+
+    @CompileStatic
+    abstract def getAllActivities()
+
+    @CompileStatic
+    abstract def getCurrentActivities()
+
+    /**
+     * @param activityName required (STRING) - Name of media activity to start
+     */
+    @CompileStatic
+    abstract void startActivity(String activityName)
 }
 
-// Media Input Source
-// Media Playback Repeat
-// Media Playback Shuffle
-// Media Playback
-// Media Presets
-// Media Track Control
+interface MediaInputSource extends Capability
+{
+    static Map<String, CapabilityAttributeInfo> _internalAttributes = CapabilityAttributeInfo.makeList{
+        jsonObject("supportedInputs")
+        stringAttribute("mediaInputSource")
+    }
+
+    /**
+     * @param inputName required (STRING) - Input to select
+     */
+    @CompileStatic
+    abstract void setInputSource(String inputName)
+}
+
+interface MediaTransport extends Capability
+{
+    static Map<String, CapabilityAttributeInfo> _internalAttributes = CapabilityAttributeInfo.makeList{
+        enumAttribute("mediaTransport", ["playing", "paused", "stopped"])
+    }
+
+    @CompileStatic
+    abstract void play()
+
+    @CompileStatic
+    abstract void pause()
+
+    @CompileStatic
+    abstract void stop()
+}
 
 @CompileStatic
 interface Momentary extends Capability
@@ -525,18 +571,14 @@ interface MotionSensor extends Capability
     }
 }
 
-interface MusicPlayer extends Capability
+interface MusicPlayer extends MuteUnmuteInternal
 {
     static Map<String, CapabilityAttributeInfo> _internalAttributes = CapabilityAttributeInfo.makeList{
-        number("level") // Double
-        enumAttribute("mute", ["unmuted", "muted"])
+        number("level", min: 0, max: 100) // Double
         stringAttribute("status")
         jsonObject("trackData")
         stringAttribute("trackDescription")
     }
-
-    @CompileStatic
-    abstract void mute()
 
     @CompileStatic
     abstract void nextTrack()
@@ -565,14 +607,12 @@ interface MusicPlayer extends Capability
     abstract void previousTrack()
 
     /**
-     *
      * @param trackUri required (STRING) - URI/URL of track to restore
      */
     @CompileStatic
     abstract void restoreTrack(trackUri)
 
     /**
-     *
      * @param trackUri required (STRING) - URI/URL of track to play
      */
     @CompileStatic
@@ -581,7 +621,6 @@ interface MusicPlayer extends Capability
 
     /**
      * @param volumeLevel required (NUMBER) - Volume level (0 to 100)
-     * @return
      */
     @CompileStatic
     abstract void setLevel(Double volumeLevel)
@@ -595,9 +634,6 @@ interface MusicPlayer extends Capability
 
     @CompileStatic
     abstract void stop()
-
-    @CompileStatic
-    abstract void unmute()
 }
 
 /**
@@ -606,27 +642,13 @@ interface MusicPlayer extends Capability
 @CompileStatic
 interface Notification extends Capability
 {
+    /**
+     * @param text required - Notification text
+     */
     abstract void deviceNotification(String text)
 }
 
-// Odor Sensor
-
-interface Outlet extends Capability
-{
-    static Map<String, CapabilityAttributeInfo> _internalAttributes = CapabilityAttributeInfo.makeList{
-        enumAttribute("switch", ["on", "off"])
-    }
-
-    @CompileStatic
-    abstract void off()
-
-    @CompileStatic
-    abstract void on()
-}
-
-// Oven Mode
-// Oven Operating State
-// Oven Setpoint
+interface Outlet extends SwitchInternal {}
 
 // Deprecated in SmartThings
 @CompileStatic
@@ -659,7 +681,6 @@ interface PresenceSensor extends Capability
     static Map<String, CapabilityAttributeInfo> _internalAttributes = CapabilityAttributeInfo.makeList{
         enumAttribute("presense", ["present", "not present"])
     }
-
 }
 
 // Rapid Cooling
@@ -667,7 +688,7 @@ interface PresenceSensor extends Capability
 interface PressureMeasurement extends Capability
 {
     static Map<String, CapabilityAttributeInfo> _internalAttributes = CapabilityAttributeInfo.makeList{
-        number("pressure") // Double
+        number("pressure") // Double, // In Pa || psi
     }
 }
 
@@ -677,6 +698,14 @@ interface PushableButton extends Capability
         number("numberOfButtons")
         number("pushed")
     }
+
+    /**
+     * @param buttonNumber required (NUMBER) - Button number to press
+     */
+    /*
+    @CompileStatic
+    abstract void push(Double buttonNumber)
+    */
 }
 
 @CompileStatic
@@ -688,26 +717,11 @@ interface Refresh extends Capability
 interface RelativeHumidityMeasurement extends Capability
 {
     static Map<String, CapabilityAttributeInfo> _internalAttributes = CapabilityAttributeInfo.makeList{
-        number("humidity") // Double
+        number("humidity") // Double, // In %
     }
 }
 
-interface RelaySwitch extends Capability
-{
-    static Map<String, CapabilityAttributeInfo> _internalAttributes = CapabilityAttributeInfo.makeList{
-        enumAttribute("switch", ["on", "off"])
-    }
-
-    @CompileStatic
-    abstract void on()
-
-    @CompileStatic
-    abstract void off()
-}
-
-// Robot Cleaner Cleaning Mode
-// Robot Cleaner Movement
-// Robot Cleaner Turbo Mode
+interface RelaySwitch extends SwitchInternal {}
 
 interface ReleasableButton extends Capability
 {
@@ -718,25 +732,17 @@ interface ReleasableButton extends Capability
 
 @CustomDeviceSelector(deviceSelector = 'samsungTV')
 @CustomPrettyName(prettyName = 'Samsung TV')
-interface SamsungTV extends Capability
+interface SamsungTV extends
+    MuteUnmuteFunctionsOnlyInternal,
+    SwitchInternal,
+    VolumeInternal
 {
     static Map<String, CapabilityAttributeInfo> _internalAttributes = CapabilityAttributeInfo.makeList {
         jsonObject("messageButton")
         enumAttribute("mute", ["muted", "unknown", "unmuted"])
         enumAttribute("pictureMode", ["unknown", "standard", "movie", "dynamic"])
         enumAttribute("soundMode", ["speech", "movie", "unknown", "standard", "music"])
-        enumAttribute("switch", ["on", "off"])
-        number("volume") // Double
     }
-
-    @CompileStatic
-    abstract void mute()
-
-    @CompileStatic
-    abstract void off()
-
-    @CompileStatic
-    abstract void on()
 
     @CompileStatic
     abstract void setPictureMode(String mode)
@@ -749,15 +755,6 @@ interface SamsungTV extends Capability
 
     @CompileStatic
     abstract void showMessage(String a, String b, String c, String d)
-
-    @CompileStatic
-    abstract void unmute()
-
-    @CompileStatic
-    abstract void volumeDown()
-
-    @CompileStatic
-    abstract void volumeUp()
 }
 
 interface SecurityKeypad extends Capability
@@ -777,9 +774,7 @@ interface SecurityKeypad extends Capability
     abstract void armHome()
 
     /**
-     *
      * @param codePosition required (NUMBER) - Code position number to delete
-     * @return
      */
     @CompileStatic
     abstract void deleteCode(Number codePosition)
@@ -817,8 +812,7 @@ interface SecurityKeypad extends Capability
 }
 
 @CompileStatic
-interface Sensor extends Capability
-{}
+interface Sensor extends Capability {}
 
 interface ShockSensor extends Capability
 {
@@ -853,7 +847,7 @@ interface SmokeDetector extends Capability
 interface SoundPressureLevel extends Capability
 {
     static Map<String, CapabilityAttributeInfo> _internalAttributes = CapabilityAttributeInfo.makeList{
-        number("soundPressureLevel") // Double
+        number("soundPressureLevel") // Double, // In dB
     }
 }
 
@@ -874,7 +868,12 @@ interface SpeechRecognition extends Capability
 @CompileStatic
 interface SpeechSynthesis extends Capability
 {
-    abstract void speak(String text)
+    /**
+     * @param text required (STRING) - Text to speak
+     * @param volume optional (NUMBER)
+     * @param voice optional (STRING) - AWS Polly voice name
+     */
+    abstract void speak(String text, Double volume, String voice)
 }
 
 interface StepSensor extends Capability
@@ -885,18 +884,7 @@ interface StepSensor extends Capability
     }
 }
 
-interface Switch extends Capability
-{
-    static Map<String, CapabilityAttributeInfo> _internalAttributes = CapabilityAttributeInfo.makeList{
-        enumAttribute("switch", ["on", "off"])
-    }
-
-    @CompileStatic
-    abstract void on()
-
-    @CompileStatic
-    abstract void off()
-}
+interface Switch extends SwitchInternal {}
 
 interface SwitchLevel extends Capability
 {
@@ -914,7 +902,7 @@ interface SwitchLevel extends Capability
 
 @CustomDeviceSelector(deviceSelector = 'tv')
 @CustomPrettyName(prettyName = 'TV')
-interface TV extends Capability
+interface TV extends VolumeInternal
 {
     static Map<String, CapabilityAttributeInfo> _internalAttributes = CapabilityAttributeInfo.makeList{
         number("channel")
@@ -922,7 +910,6 @@ interface TV extends Capability
         stringAttribute("picture")
         stringAttribute("power")
         stringAttribute("sound")
-        number("volume") // Double
     }
 
     @CompileStatic
@@ -930,12 +917,6 @@ interface TV extends Capability
 
     @CompileStatic
     abstract void channelUp()
-
-    @CompileStatic
-    abstract void volumeDown()
-
-    @CompileStatic
-    abstract void volumeUp()
 }
 
 interface TamperAlert extends Capability
@@ -948,6 +929,15 @@ interface TamperAlert extends Capability
 @CompileStatic
 interface Telnet extends Capability
 {
+    static Map<String, CapabilityAttributeInfo> _internalAttributes = CapabilityAttributeInfo.makeList{
+        enumAttribute("networkStatus", ["online", "offline"])
+    }
+
+    /**
+     * @param message required (STRING) - Text message to send
+     */
+    @CompileStatic
+    abstract void sendMsg(String message)
 }
 
 interface TemperatureMeasurement extends Capability
@@ -981,11 +971,10 @@ interface Thermostat extends
 interface ThermostatCoolingSetpoint extends Capability
 {
     static def _internalAttributes = CapabilityAttributeInfo.makeList {
-        number("coolingSetpoint")
+        number("coolingSetpoint") // Double, // In F || C
     }
 
     /**
-     *
      * @param temperature required (NUMBER) - Cooling setpoint in degrees
      */
     @CompileStatic
@@ -1007,6 +996,9 @@ interface ThermostatFanMode extends Capability
     @CompileStatic
     abstract void fanOn()
 
+    /**
+     * @param fanMode required (ENUM) - Fan mode to set
+     */
     @CompileStatic
     abstract void setThermostatFanMode(String fanMode)
 }
@@ -1014,11 +1006,10 @@ interface ThermostatFanMode extends Capability
 interface ThermostatHeatingSetpoint extends Capability
 {
     static Map<String, CapabilityAttributeInfo> _internalAttributes = CapabilityAttributeInfo.makeList{
-        number("heatingSetpoint") // temperature in degree
+        number("heatingSetpoint") // Double, // in F || C
     }
 
     /**
-     *
      * @param temperature required (NUMBER) - Heating setpoint in degrees
      */
     @CompileStatic
@@ -1046,8 +1037,11 @@ interface ThermostatMode extends Capability
     @CompileStatic
     abstract void off()
 
+    /**
+     * @param thermostatmode required (ENUM) - Thermostat mode to set
+     */
     @CompileStatic
-    abstract void setThermostatMode(String mode)
+    abstract void setThermostatMode(String thermostatmode)
 }
 
 interface ThermostatOperatingState extends Capability
@@ -1070,7 +1064,7 @@ interface ThermostatSchedule extends Capability
 interface ThermostatSetpoint extends Capability
 {
     static Map<String, CapabilityAttributeInfo> _internalAttributes = CapabilityAttributeInfo.makeList{
-        number("thermostatSetpoint")
+        number("thermostatSetpoint") // Double, // in F || C
     }
 }
 
@@ -1117,8 +1111,6 @@ interface TouchSensor extends Capability
     }
 }
 
-// Tv Channel
-
 interface UltravioletIndex extends Capability
 {
     static Map<String, CapabilityAttributeInfo> _internalAttributes = CapabilityAttributeInfo.makeList{
@@ -1139,14 +1131,23 @@ interface Valve extends Capability
     abstract void close()
 }
 
-// Video Stream
-// Video Clips
+interface Variable extends Capability
+{
+    static Map<String, CapabilityAttributeInfo> _internalAttributes = CapabilityAttributeInfo.makeList{
+        stringAttribute("variable")
+    }
 
-interface VideoCamera extends Capability
+    /**
+     * @param valueToSet required (STRING)
+     */
+    @CompileStatic
+    abstract void setVariable(String valueToSet)
+}
+
+interface VideoCamera extends MuteUnmuteInternal
 {
     static Map<String, CapabilityAttributeInfo> _internalAttributes = CapabilityAttributeInfo.makeList{
         enumAttribute("camera", ["on", "off", "restarting", "unavailable"])
-        enumAttribute("mute", ["unmuted", "muted"])
         jsonObject("settings")
         stringAttribute("statusMessage")
     }
@@ -1155,16 +1156,10 @@ interface VideoCamera extends Capability
     abstract void flip()
 
     @CompileStatic
-    abstract void mute()
-
-    @CompileStatic
     abstract void off()
 
     @CompileStatic
     abstract void on()
-
-    @CompileStatic
-    abstract void unmute()
 }
 
 //interface VideoCapture extends Capability
@@ -1184,14 +1179,24 @@ interface VoltageMeasurement extends Capability
     }
 }
 
-// Washer Mode
-// Washer Operating State
-
 interface WaterSensor extends Capability
 {
     static Map<String, CapabilityAttributeInfo> _internalAttributes = CapabilityAttributeInfo.makeList{
         enumAttribute("water", ["wet", "dry"])
     }
+}
+
+interface WindowBlind extends WindowShade
+{
+    static Map<String, CapabilityAttributeInfo> _internalAttributes = CapabilityAttributeInfo.makeList{
+        number("tilt", min: 0, max: 100) // In %
+    }
+
+    /**
+     * @param tilt required - Tilt percentage (0 to 100)
+     */
+    @CompileStatic
+    abstract void setTiltLevel(Number tilt)
 }
 
 interface WindowShade extends Capability

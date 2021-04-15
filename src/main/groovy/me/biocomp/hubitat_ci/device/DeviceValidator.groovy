@@ -1,6 +1,7 @@
 package me.biocomp.hubitat_ci.device
 
 import me.biocomp.hubitat_ci.capabilities.Capabilities
+import me.biocomp.hubitat_ci.capabilities.Capability
 import me.biocomp.hubitat_ci.device.metadata.*
 import me.biocomp.hubitat_ci.util.RequreParseCompilationCusomizer
 import me.biocomp.hubitat_ci.validation.InputCommon
@@ -85,7 +86,20 @@ class DeviceValidator extends
                 def capabilityClass = Capabilities.findCapabilityByName(it)
 
                 def missingMethods = capabilityClass.methods.findAll {
-                    if (it.declaringClass == capabilityClass) {
+                    // Will be true if there is no capability inheritance
+                    boolean matched = it.declaringClass == capabilityClass
+
+                    if (!matched) {
+                        // If no direct match, check all implemented interfaces
+                        for (Class c : capabilityClass.getInterfaces()) {
+                            if (c != Capability && it.declaringClass == c) {
+                                matched = true
+                                break
+                            }
+                        }
+                    }
+
+                    if (matched) {
                         //println "### Expecting method ${it.name}. Map ${scriptActualMethods.containsKey(it.name) ? "has it" : "doesn't have it" }"
 
                         return !scriptActualMethods.containsKey(it.name)
