@@ -65,7 +65,7 @@ class DeviceInputValueFactory implements IInputValueFactory
         def attributes = capability ? Capabilities.readAttributes(capability).values() : new ArrayList<CapabilityAttributeInfo>()
         def methods = capability ? Capabilities.readMethods(capability) : new ArrayList<Method>()
 
-        final def className = "Device_WithCapability_${deviceOrCapabilityName}_Impl"
+        final def className = "Device_WithCapability_${deviceOrCapabilityName != '*' ? deviceOrCapabilityName : 'Any'}_Impl"
 
         builder.append(
                 """

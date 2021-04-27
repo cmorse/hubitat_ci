@@ -81,6 +81,9 @@ class Input extends InputCommon {
             } else {
                 assert false: "Input ${this}'s capability '${typeName}' is not supported. Supported capabilities: ${Capabilities.capabilitiesByDeviceSelector.keySet()}"
             }
+        } else if (typeName == 'capability.*') {
+            return new DeviceInputValueFactory(null, typeName.substring('capability.'.length()))
+            // Unknown capabilities, just using dummy device
         }
 
         if (typeName =~ /device\.[a-zA-Z0-9._]+/) {

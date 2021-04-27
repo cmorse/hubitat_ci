@@ -173,6 +173,7 @@ hideWhenEmpty: true)
 
         where:
             type << ["capability.thermostat",
+                     "capability.*",
                      "device.someDeviceName",
                      "bool",
                      //"boolean",
